@@ -19,4 +19,4 @@ If applicable, add screenshots to help explain your problem.
 **Specify this information**
  - OS
  - environment
- - duckduckgo_search version
+ - duckduckit version
