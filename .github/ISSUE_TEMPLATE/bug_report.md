@@ -11,7 +11,7 @@ assignees: ''
 What the bug is.
 
 **Debug log**
-Add `logging.basicConfig(level=logging.DEBUG)` to the beginning of your script and attach log to the issue.
+Add `ddgs.logger.setLogLevel(0)` to the beginning of your script and attach log to the issue.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
