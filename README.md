@@ -1,11 +1,11 @@
-![Python >= 3.7](https://img.shields.io/badge/python->=3.7-red.svg) [![](https://badgen.net/github/release/deedy5/duckduckgo_search)](https://github.com/deedy5/duckduckgo_search/releases) [![](https://badge.fury.io/py/duckduckgo-search.svg)](https://pypi.org/project/duckduckgo-search) [![Downloads](https://static.pepy.tech/personalized-badge/duckduckgo-search?period=total&units=none&left_color=grey&right_color=blue&left_text=downloads/total)](https://pepy.tech/project/duckduckgo-search) [![Downloads](https://static.pepy.tech/personalized-badge/duckduckgo-search?period=month&units=none&left_color=grey&right_color=blue&left_text=downloads/month)](https://pepy.tech/project/duckduckgo-search) [![Downloads](https://static.pepy.tech/personalized-badge/duckduckgo-search?period=week&units=none&left_color=grey&right_color=blue&left_text=downloads/weak)](https://pepy.tech/project/duckduckgo-search)
-# Duckduckgo_search<a name="TOP"></a>
+# Duckduckit<a name="TOP"></a>
 
-Search for words, documents, images, videos, news, maps and text translation using the DuckDuckGo.com search engine. Downloading files and images to a local hard drive.
+TypeScript&Node.js Version of [deedy5/duckduckgo_search](https://github.com/deedy5/duckduckgo_search).
+
+**Currently implemented only `text()`**
 
 ## Table of Contents
 * [Install](#install)
-* [CLI version](#cli-version)
 * [Duckduckgo search operators](#duckduckgo-search-operators)
 * [Regions](#regions)
 * [Using proxy](#using-proxy)
@@ -19,46 +19,9 @@ Search for words, documents, images, videos, news, maps and text translation usi
 * [8. suggestions() - suggestions](#8-suggestions---suggestions-by-duckduckgocom)
 
 ## Install
-```python
-pip install -U duckduckgo_search
+```js
+npm install duckduckit
 ```
-
-## CLI version
-
-```python3
-ddgs --help
-```
-or
-```python3
-python -m duckduckgo_search --help
-```
-
-CLI examples:
-```python3
-# text search
-ddgs text -k 'ayrton senna'
-# text search via proxy (example: Tor Browser)
-ddgs text -k 'china is a global threat' -p socks5://localhost:9150
-# find and download pdf files
-ddgs text -k "russia filetype:pdf" -m 50 -d
-# find in es-es region and download pdf files via proxy (example: Tor browser)
-ddgs text -k "embajada a tamorlán filetype:pdf" -r es-es -m 50 -d -p socks5://localhost:9150
-# find and download xls files from a specific site
-ddgs text -k 'sanctions filetype:xls site:gov.ua' -m 50 -d
-# find and download any doc(x) files from a specific site
-ddgs text -k 'filetype:doc site:mos.ru' -m 50 -d
-# find and download images
-ddgs images -k "yuri kuklachev cat theatre" -m 500 -s off -d
-# find in br-br region and download images via proxy (example: Tor browser) in 10 threads
-ddgs images -k 'rio carnival' -r br-br -s off -m 500 -d -th 10 -p socks5://localhost:9150
-# get latest news
-ddgs news -k "ukraine war" -s off -t d -m 10
-# get last day's news and save it to a csv file
-ddgs news -k "hubble telescope" -t d -m 50 -o csv
-# get answers and save to a json file
-ddgs answers -k holocaust -o json
-```
-[Go To TOP](#TOP)
 
 ## Duckduckgo search operators
 
@@ -153,26 +116,6 @@ ___
 
 [Go To TOP](#TOP)
 
-## Using proxy
-*1. The easiest way. Launch the Tor Browser*
-```python3
-from duckduckgo_search import DDGS
-
-with DDGS(proxies="socks5://localhost:9150", timeout=20) as ddgs:
-    for r in ddgs.text("something you need"):
-        print(r)
-```
-*2. Use any proxy server* (*example with [iproyal residential proxies](https://iproyal.com?r=residential_proxies)*)
-```python3
-from duckduckgo_search import DDGS
-
-with DDGS(proxies="socks5://user:password@geo.iproyal.com:32325", timeout=20) as ddgs:
-    for r in ddgs.text("something you need"):
-        print(r)
-```
-
-[Go To TOP](#TOP)
-
 ## 1. text() - text search by duckduckgo.com
 `html` and `lite` backend differ from `api`:</br>
 * don't do an extra request first to get vqd,</br>
@@ -181,50 +124,18 @@ with DDGS(proxies="socks5://user:password@geo.iproyal.com:32325", timeout=20) as
 
 If you use `html` or `lite` backend, pause at least 0.75 seconds between text() calls. 
 Otherwise the site will return a 403 status code after a few requests and block your ip for a few seconds.
-```python
-def text(
-    keywords: str,
-    region: str = "wt-wt",
-    safesearch: str = "moderate",
-    timelimit: Optional[str] = None,
-    backend: str = "api",
-) -> Iterator[Dict[str, Optional[str]]]:
-    """DuckDuckGo text search generator. Query params: https://duckduckgo.com/params
-
-    Args:
-        keywords: keywords for query.
-        region: wt-wt, us-en, uk-en, ru-ru, etc. Defaults to "wt-wt".
-        safesearch: on, moderate, off. Defaults to "moderate".
-        timelimit: d, w, m, y. Defaults to None.
-        backend: api, html, lite. Defaults to api.
-            api - collect data from https://duckduckgo.com,
-            html - collect data from https://html.duckduckgo.com,
-            lite - collect data from https://lite.duckduckgo.com.
-    Yields:
-        dict with search results.
-
-    """
-```
 ***Example***
-```python
-from duckduckgo_search import DDGS
+```js
+import { DDGS } from "duckduckit";
 
-with DDGS() as ddgs:
-    for r in ddgs.text('live free or die', region='wt-wt', safesearch='Off', timelimit='y'):
-        print(r)
+const ddgs = new DDGS();
+const results = await ddgs.text('live free or die', { region: 'wt-wt', safesearch: 'off', timelimit: 'y' });
+console.log(results);
 
-# Searching for pdf files
-with DDGS() as ddgs:
-    for r in ddgs.text('russia filetype:pdf', region='wt-wt', safesearch='Off', timelimit='y'):
-        print(r)
-
-# Using lite backend and limit the number of results to 10
-from itertools import islice
-
-with DDGS() as ddgs:
-    ddgs_gen = ddgs.text("notes from a dead house", backend="lite")
-    for r in islice(ddgs_gen, 10):
-        print(r)
+//Searching for pdf files
+const ddgs = new DDGS();
+const results = await ddgs.text('russia filetype:pdf', { region: 'wt-wt', safesearch: 'off', timelimit: 'y'});
+console.log(r);
 ```
 
 

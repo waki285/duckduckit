@@ -1,6 +1,6 @@
 {
   "name": "duckduckit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Search for words, documents, images, videos, news, maps and text translation using the DuckDuckGo.com search engine.",
   "main": "dist/index.js",
   "type": "module",
